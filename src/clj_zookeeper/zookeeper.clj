@@ -67,7 +67,7 @@
 
 (defn get-data
   [^String path]
-  (if (check-exists? @*curator-framework* path)
+  (if (check-exists? path)
     (.. @*curator-framework*
         (getData)
         (forPath path))))
