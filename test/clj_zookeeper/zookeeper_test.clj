@@ -21,7 +21,10 @@
         client (new-client connect-string)
         data-string "test data"]
     ;;creation tests
-    (is (= false (check-exists? client parent-node)))
-    (do (create client parent-node :data (.getBytes "ad"))
-        (is (= true (check-exists? client parent-node))))
-    (close client)))
+    (is (= false (check-exists? parent-node)))
+    (is (= false (check-exists? parent-node)))
+    (do (create parent-node :data (.getBytes "ad"))
+        (is (= true (check-exists? parent-node))))
+    (do (delete parent-node)
+        (is (= false (check-exists? parent-node))))
+    (close)))

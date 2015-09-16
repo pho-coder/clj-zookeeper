@@ -1,20 +1,22 @@
 # clj-zookeeper
 
-FIXME: description
+A Clojure DSL for Apache ZooKeeper Curator Framework
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Download from https://clojars.org/clj-zookeeper
 
 ## Usage
 
-FIXME: explanation
+Leiningen
 
-    $ java -jar clj-zookeeper-0.1.0-standalone.jar [args]
+<pre><code>
+[clj-zookeeper "0.1.0-SNAPSHOT"]
+</code></pre>
 
 ## Options
 
-FIXME: listing of options this app accepts.
+
 
 ## Examples
 
@@ -30,7 +32,7 @@ FIXME: listing of options this app accepts.
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Phoenix Zhang
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

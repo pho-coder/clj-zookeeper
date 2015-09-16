@@ -3,6 +3,8 @@
            (org.apache.curator.framework CuratorFramework CuratorFrameworkFactory)
            (org.apache.curator.retry BoundedExponentialBackoffRetry)))
 
+(def ^:dynamic *curator-framework* (atom nil))
+
 (def zk-create-modes
   {:ephemeral CreateMode/EPHEMERAL
    :persistent CreateMode/PERSISTENT
@@ -26,49 +28,50 @@
                     (sessionTimeoutMs session-timeoutms))
         curator-framework (.build builder)]
     (.start curator-framework)
+    (reset! *curator-framework* curator-framework)
     curator-framework))
 
 (defn close
-  [^CuratorFramework client]
-  (.close client))
+  []
+  (.close @*curator-framework*))
 
 (defn create
-  [^CuratorFramework cf ^String path & {:keys [mode data]
-                                        :or {mode :persistent}}]
+  [^String path & {:keys [mode data]
+                   :or {mode :persistent}}]
   (if (nil? data)
-    (.. cf
+    (.. @*curator-framework*
         (create)
         (withMode (zk-create-modes mode))
         (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
         (forPath path))
-    (.. cf
+    (.. @*curator-framework*
         (create)
         (withMode (zk-create-modes mode))
         (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
         (forPath path data))))
 
 (defn delete
-  [^CuratorFramework cf ^String path]
-  (.. cf
+  [^String path]
+  (.. @*curator-framework*
       (delete)
       (forPath path)))
 
 (defn check-exists?
-  [^CuratorFramework cf ^String path]
+  [^String path]
   ((complement nil?)
-   (.. cf (checkExists) (forPath path))))
+   (.. @*curator-framework* (checkExists) (forPath path))))
 
 (defn get-children
-  [^CuratorFramework cf ^String path]
-  (.. cf (getChildren) (forPath path)))
+  [^String path]
+  (.. @*curator-framework* (getChildren) (forPath path)))
 
 (defn get-data
-  [^CuratorFramework cf ^String path]
-  (if (check-exists? cf path)
-    (.. cf
+  [^String path]
+  (if (check-exists? @*curator-framework* path)
+    (.. @*curator-framework*
         (getData)
         (forPath path))))
 
 (defn set-data
-  [^CuratorFramework cf ^String path ^bytes data]
-  (.. cf (setData) (forPath path data)))
+  [^String path ^bytes data]
+  (.. @*curator-framework* (setData) (forPath path data)))

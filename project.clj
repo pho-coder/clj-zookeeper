@@ -1,4 +1,4 @@
-(defproject clj-zookeeper "0.1.0-SNAPSHOT"
+(defproject clj-zookeeper "0.2.0-SNAPSHOT"
   :description "A Clojure DSL for Apache ZooKeeper Curator Framework"
   :url "https://github.com/pho-coder/clj-zookeeper"
   :license {:name "Eclipse Public License"
