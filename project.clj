@@ -1,4 +1,4 @@
-(defproject org.clojars.phoenix/clj-zookeeper "0.1.0-SNAPSHOT"
+(defproject clj-zookeeper "0.1.0-SNAPSHOT"
   :description "A Clojure DSL for Apache ZooKeeper Curator Framework"
   :url "https://github.com/pho-coder/clj-zookeeper"
   :license {:name "Eclipse Public License"
@@ -6,5 +6,5 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.apache.zookeeper/zookeeper "3.4.6"]
                  [org.apache.curator/curator-framework "2.9.0"]
-                 [org.apache.curator/curator-client "2.9.0"]
-                 [org.apache.curator/curator-test "2.9.0" :scope "test"]])
+                 [org.apache.curator/curator-client "2.9.0" :scope "retry"]]
+  :profiles {:dev {:dependencies [[org.apache.curator/curator-test "2.9.0" :scope "test"]]}})
