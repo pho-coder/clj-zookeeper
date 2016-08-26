@@ -91,7 +91,7 @@
          (forPath path))))
   ([^CuratorFrameworkFactory$Builder client
     ^String path]
-   (if (check-exists? path)
+   (if (check-exists? client path)
      (.. client
          (getData)
          (forPath path)))))
