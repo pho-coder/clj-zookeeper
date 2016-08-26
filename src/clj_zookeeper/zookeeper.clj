@@ -1,6 +1,6 @@
 (ns clj-zookeeper.zookeeper
   (:import (org.apache.zookeeper CreateMode ZooDefs$Ids)
-           (org.apache.curator.framework CuratorFramework CuratorFrameworkFactory)
+           (org.apache.curator.framework CuratorFramework CuratorFrameworkFactory CuratorFrameworkFactory$Builder)
            (org.apache.curator.retry BoundedExponentialBackoffRetry)))
 
 (def ^:dynamic *curator-framework* (atom nil))
