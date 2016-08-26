@@ -38,33 +38,23 @@
    (.close client)))
 
 (defn create
-  ([^String path & {:keys [mode data]
-                    :or {mode :persistent}}]
-   (if (nil? data)
-     (.. @*curator-framework*
-         (create)
-         (withMode (zk-create-modes mode))
-         (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
-         (forPath path))
-     (.. @*curator-framework*
-         (create)
-         (withMode (zk-create-modes mode))
-         (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
-         (forPath path data))))
-  ([^CuratorFrameworkFactory$Builder client
-    ^String path & {:keys [mode data]
-                    :or {mode :persistent}}]
-   (if (nil? data)
-     (.. client
-         (create)
-         (withMode (zk-create-modes mode))
-         (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
-         (forPath path))
-     (.. client
-         (create)
-         (withMode (zk-create-modes mode))
-         (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
-         (forPath path data)))))
+  [^String path & {:keys [mode data ^CuratorFrameworkFactory$Builder client]
+                   :or {mode :persistent}}]
+  (if (nil? data)
+    (.. (if (nil? client)
+          @*curator-framework*
+          client)
+        (create)
+        (withMode (zk-create-modes mode))
+        (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
+        (forPath path))
+    (.. (if (nil? client)
+          @*curator-framework*
+          client)
+        (create)
+        (withMode (zk-create-modes mode))
+        (withACL ZooDefs$Ids/OPEN_ACL_UNSAFE)
+        (forPath path data))))
 
 (defn delete
   ([^String path]
@@ -78,13 +68,13 @@
        (forPath path))))
 
 (defn check-exists?
-  ([^String path])
-  ((complement nil?)
-   (.. @*curator-framework* (checkExists) (forPath path)))
+  ([^String path]
+   ((complement nil?)
+    (.. @*curator-framework* (checkExists) (forPath path))))
   ([^CuratorFrameworkFactory$Builder client
-    ^String path])
-  ((complement nil?)
-   (.. client (checkExists) (forPath path))))
+    ^String path]
+   ((complement nil?)
+    (.. client (checkExists) (forPath path)))))
 
 (defn get-children
   ([^String path]
